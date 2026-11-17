@@ -1,17 +1,23 @@
-# shivam_electricals
+# Shivam Electricals ERP
 
-A new Flutter project.
+Flutter mobile client and Node.js/Express backend for the distributor ERP.
 
-## Getting Started
+## Project layout
 
-This project is a starting point for a Flutter application.
+- `lib/` - Flutter app, GetX routing, secure session, and API client.
+- `backend/` - Phase 1 API service, MongoDB models, authentication, role checks,
+  and audit-log plumbing.
+- `Shivam Electricals ERP – System Architecture.pdf` - product architecture
+  and phased delivery reference.
 
-A few resources to get you started if this is your first Flutter project:
+## Run the Flutter app
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```powershell
+flutter pub get
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Run the backend
+
+See [`backend/README.md`](backend/README.md). The backend requires a MongoDB
+connection and JWT secrets in `backend/.env`.
