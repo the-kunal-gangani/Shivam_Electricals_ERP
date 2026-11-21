@@ -6,7 +6,12 @@ export async function writeAuditLog({
   entity,
   entityId,
   storeId = null,
-  metadata = {}
+  metadata = {},
+  actorRole,
+  before,
+  after,
+  ip,
+  userAgent
 }) {
-  await AuditLog.create({ actorId, action, entity, entityId, storeId, metadata });
+  await AuditLog.create({ actorId, actorRole, action, entity, entityId, storeId, metadata, before, after, ip, userAgent });
 }

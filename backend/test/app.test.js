@@ -23,12 +23,21 @@ test('admin routes require authentication', async () => {
   assert.equal(response.body.success, false);
 });
 
+test('product routes require authentication', async () => {
+  const response = await request(app).post('/api/v1/products');
+
+  assert.equal(response.status, 401);
+  assert.equal(response.body.success, false);
+  assert.deepEqual(response.body.errors, {});
+});
+
 test('unknown routes use the API error envelope', async () => {
   const response = await request(app).get('/api/v1/not-found');
 
   assert.equal(response.status, 404);
   assert.deepEqual(response.body, {
     success: false,
-    message: 'Route not found.'
+    message: 'Route not found.',
+    errors: {}
   });
 });

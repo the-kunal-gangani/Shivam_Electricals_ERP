@@ -81,6 +81,11 @@ test/                   Flutter tests
 - MongoDB models for users, stores, refresh tokens, and audit logs.
 - Login, refresh, logout, and current-user endpoints.
 - JWT authentication and Admin route protection.
+- Owner-managed staff creation, listing, updates, password reset, and
+  permission enforcement.
+- Seed command for the first store and Admin account.
+- Product master data with colour variants, paise-based rates, search,
+  pagination, role-safe price projections, and rate history.
 - Consistent success and error response envelopes.
 - Login rate limiting, Helmet, CORS, and request validation.
 
@@ -149,6 +154,13 @@ Copy-Item .env.example .env
 Update `backend/.env` with a reachable MongoDB URI and unique random JWT
 secrets. Never commit `.env` or real credentials.
 
+Set the `SEED_*` values in `backend/.env`, then create the initial store and
+Admin account:
+
+```powershell
+npm run seed
+```
+
 Start the API:
 
 ```powershell
@@ -200,6 +212,21 @@ Current Phase 1 endpoints:
 | GET | `/api/v1/auth/me` | Return the authenticated user |
 | GET | `/api/v1/stores` | List stores assigned to the user |
 | GET | `/api/v1/stores/admin-ping` | Verify Admin-only route protection |
+| POST | `/api/v1/users/staff` | Create a Staff account (Admin only) |
+| GET | `/api/v1/users/staff` | List Staff accounts (Admin only) |
+| PATCH | `/api/v1/users/staff/:id` | Update Staff access or status (Admin only) |
+| POST | `/api/v1/users/staff/:id/reset-password` | Reset Staff password (Admin only) |
+| GET | `/api/v1/products` | Search and paginate products |
+| GET | `/api/v1/products/:id` | Get a role-filtered product |
+| POST | `/api/v1/products` | Create a product (Admin only) |
+| PATCH | `/api/v1/products/:id` | Edit product details (Admin only) |
+| PATCH | `/api/v1/products/:id/variants/:variantId/rates` | Edit rates with history (Admin only) |
+| POST | `/api/v1/products/rates/bulk` | Bulk-edit rates (Admin only) |
+| GET | `/api/v1/products/:id/rate-history` | View rate history (Admin only) |
+
+Authenticated shop-scoped requests may include the `X-Store-Id` header. Staff
+are restricted to assigned active stores; Admin users may select any active
+store or omit the header.
 
 The backend contract must remain compatible with the Flutter API client:
 [api_client.dart](lib/core/network/api_client.dart) unwraps the `data` field,

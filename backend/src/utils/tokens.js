@@ -1,7 +1,6 @@
 import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
-
 export function createAccessToken(user) {
   return jwt.sign(
     { role: user.role, storeIds: user.storeIds.map((store) => store.toString()) },
@@ -11,12 +10,7 @@ export function createAccessToken(user) {
 }
 
 export function createRefreshToken(user) {
-  const tokenId = crypto.randomUUID();
-  const token = jwt.sign({ tokenId }, env.JWT_REFRESH_SECRET, {
-    subject: user._id.toString(),
-    expiresIn: env.REFRESH_TOKEN_TTL
-  });
-  return { token, tokenId };
+  return { token: crypto.randomBytes(48).toString('base64url') };
 }
 
 export function hashToken(token) {
@@ -25,8 +19,4 @@ export function hashToken(token) {
 
 export function verifyAccessToken(token) {
   return jwt.verify(token, env.JWT_ACCESS_SECRET);
-}
-
-export function verifyRefreshToken(token) {
-  return jwt.verify(token, env.JWT_REFRESH_SECRET);
 }

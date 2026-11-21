@@ -19,6 +19,14 @@ export function errorHandler(error, req, res, next) {
     return failure(res, 'A record with that value already exists.', 409);
   }
 
+  if (error instanceof mongoose.Error.CastError) {
+    return failure(res, `Invalid value for ${error.path}.`, 400);
+  }
+
+  if (error?.type === 'entity.parse.failed') {
+    return failure(res, 'Invalid JSON body.', 400);
+  }
+
   if (process.env.NODE_ENV !== 'test') console.error(error);
   return failure(res, error.statusCode ? error.message : 'Something went wrong.', error.statusCode ?? 500);
 }

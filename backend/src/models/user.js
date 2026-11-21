@@ -6,10 +6,11 @@ const userSchema = new mongoose.Schema(
     email: { type: String, lowercase: true, trim: true, sparse: true, unique: true },
     phone: { type: String, trim: true, sparse: true, unique: true },
     passwordHash: { type: String, required: true, select: false },
-    role: { type: String, enum: ['admin', 'staff'], required: true },
+    role: { type: String, enum: ['admin', 'staff'], required: true, index: true },
     permissions: { type: [String], default: [] },
     storeIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Store' }],
-    isActive: { type: Boolean, default: true }
+    isActive: { type: Boolean, default: true },
+    lastLoginAt: { type: Date }
   },
   { timestamps: true }
 );

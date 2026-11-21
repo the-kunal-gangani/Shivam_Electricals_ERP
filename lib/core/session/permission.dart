@@ -3,6 +3,7 @@ enum Permission {
   viewCostPrice('view_cost_price'),
   createWholesaleBill('create_wholesale_bill'),
   createRetailBill('create_retail_bill'),
+  createDraftBill('create_draft_bill'),
   cancelBill('cancel_bill'),
   manageProducts('manage_products'),
   viewStock('view_stock'),
